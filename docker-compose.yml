@@ -1,0 +1,45 @@
+services:
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: development
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+      - BUILD_TARGET=development
+    volumes:
+      - ./src:/app/src:ro
+      - ./public:/app/public:ro
+      - ./index.html:/app/index.html:ro
+      - ./vite.config.js:/app/vite.config.js:ro
+      - ./tailwind.config.js:/app/tailwind.config.js:ro
+      - ./postcss.config.js:/app/postcss.config.js:ro
+      - web_portfolio_react_node_modules:/app/node_modules
+    restart: unless-stopped
+
+  production:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: production
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+      - BUILD_TARGET=production
+    volumes:
+      - web_portfolio_react_webpage_source:/usr/share/nginx/html
+      - web_portfolio_react_nginx_config:/etc/nginx/conf.d
+    restart: unless-stopped
+
+volumes:
+  web_portfolio_react_webpage_source:
+    name: web_portfolio_webpage_source
+  web_portfolio_react_nginx_config:
+    name: web_portfolio_nginx_config
+  web_portfolio_react_node_modules:
+    name: web_portfolio_node_modules
