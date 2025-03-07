@@ -22,7 +22,8 @@ export default defineConfig(({ mode }) => {
 					}
 					next();
 				}
-			]
+			],
+     allowedHosts: 'nanon_webport.cheaterh.pro'
 		},
 		plugins: [
 			react()
